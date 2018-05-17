@@ -5,8 +5,10 @@
 #include <stdlib.h>
 
 char * get_string(char *string);
-char * get_digits(char *string, double *operand_a);
+double get_digits(char *string);
+// char * get_digits(char *string, double *operand_a);
 void removeSpaces(char *str);
+double result = 0;
 
 int main(void){
     double op_a = 0;
@@ -22,8 +24,10 @@ int main(void){
     removeSpaces(mystring);
     printf("%s%s\n", "This is my string without spaces", mystring) ;
 
-    op_b = get_digits(mystring, &op_a);
-    printf("%s%s\n%s%g\n%s%s\n", "mystring ", mystring, "opa ", op_a, "opb ", op_b);
+    result = get_digits(mystring);
+    // op_b = get_digits(mystring, &op_a);
+    // printf("%s%s\n%s%g\n%s%s\n", "mystring ", mystring, "opa ", op_a, "opb ", op_b);
+
 
 }
 char * get_string(char *string) {
@@ -46,53 +50,44 @@ char * get_string(char *string) {
     c=getchar();
 
   }
+  string += '\0';
   return string;
 }
-char  * get_digits(char *string, double *operand_a) {
-  // size_t i = 0;
-  // size_t ln = strlen(string);
-  // size_t j = 0;
-  // char digits[20] = {0};
-  // double operand_a = 0;
-  // printf("strlen is %lu\n", ln);
-  // while (string[i] != '\0' && string[i] !='\n') {
-  //   //putchar(string[i]);
-  //   if (isdigit((string[i]))){
-  //     printf("%c is a digit\n", string[i]);
-  //     digits[j] = string[i];
-  //     j++;
-  //   } else {
-  //     printf("%c not a digit\n", string[i]);
-  //   }
-  //   i++;
-  // }
-  //
-  // printf("%s%s\n", "*digits is ", digits);
-  // operand_a = strtod("99.0");
-  // printf("Operand a is %f", operand_a);
-  // return operand_a;
 
-  char *ptr;
-  double digits;
-  double ret;
-  ret = strtod(string, &ptr);
-  printf("%g is the number\n", ret);
-  // size_t i=0;
-  // while (!ptr[i]) {
-  //   printf("%s%c\n", "ptr is", ptr[i]);
-  //   i++;
-  // }
-  // for (i = 0; i <= strlen(ptr); i++) {
-  //     printf("%s%c", " ptr char ", ptr[i]);
-  // }
+
+double get_digits(char *string) {
+  char *partb;
+  char *operand_a;
+  char *digits;
+  double parta;
+
+  parta = strtod(string, &partb);
 
 
 
-  printf("%s is the string part\n", ptr);
-  *operand_a = ret;
 
+    if (*partb != '\0') {
+        printf("%s is the string part\n", partb);
+    } else {
+      printf("No string part\n");
+    }
 
-  return ptr;
+    //*operand_a = parta;
+    result += parta;
+
+    switch (partb[0]){
+      case '+':
+
+      partb++;
+      printf("%g PLUS %s\n", parta, partb);
+      result += get_digits(partb);
+      printf("%g result\n", result);
+        break;
+      default :
+    break;
+    }
+
+  return result;
 }
 void removeSpaces(char *str)
 {
