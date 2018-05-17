@@ -5,13 +5,13 @@
 #include <stdlib.h>
 
 char * get_string(char *string);
-char * get_digits(char *string, double *operand);
+char * get_digits(char *string, double *operand_a);
 void removeSpaces(char *str);
 
 int main(void){
-    double operand_a = 0;
-    double operand_b = 0;
-    char operator = '\0';
+    double op_a = 0;
+    char * op_b = NULL;
+    char opr = '\0';
     char input[20] = {0};
     char * mystring = NULL;
 
@@ -22,7 +22,8 @@ int main(void){
     removeSpaces(mystring);
     printf("%s%s\n", "This is my string without spaces", mystring) ;
 
-    get_digits(mystring, &operand_a);
+    op_b = get_digits(mystring, &op_a);
+    printf("%s%s\n%s%g\n%s%s\n", "mystring ", mystring, "opa ", op_a, "opb ", op_b);
 
 }
 char * get_string(char *string) {
@@ -47,7 +48,7 @@ char * get_string(char *string) {
   }
   return string;
 }
-char  * get_digits(char *string, double *operand) {
+char  * get_digits(char *string, double *operand_a) {
   // size_t i = 0;
   // size_t ln = strlen(string);
   // size_t j = 0;
@@ -88,7 +89,9 @@ char  * get_digits(char *string, double *operand) {
 
 
   printf("%s is the string part\n", ptr);
-  *operand = ret;
+  *operand_a = ret;
+
+
   return ptr;
 }
 void removeSpaces(char *str)
