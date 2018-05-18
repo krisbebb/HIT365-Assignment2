@@ -11,7 +11,8 @@ void removeSpaces(char *str);
 void prompt(void);
 void reset(void);
 int eval_input(char *string);
-int print_help(void);
+void print_help(void);
+void print_answer();
 
 double answer = 0;
 char input[20] = {0};
@@ -21,10 +22,10 @@ int exit_calc = 0;
 double memory = 0;
 
 int main(void){
-
+  printf("memory is equal to %g\n", memory);
   reset();
   while (!exit_calc){
-
+printf("memory is equal to %g\n", memory);
     prompt();
 
 
@@ -33,12 +34,9 @@ int main(void){
     replace_sqr(calc_string);
     printf("%s%s\n", "This is my string without spaces", calc_string) ;
     eval_input(calc_string);
-    answer = to_num2(calc_string);
-    if (answer == trunc(answer)){
-      printf("%s%g\n", "Answer:\\> ", answer);
-    } else
 
-    printf("%s%f\n", "Answer:\\> ", answer);
+
+
 
 } // end while
 }
@@ -67,11 +65,50 @@ char * get_string(char *string) {
 }
 
 double to_num2(char *string) {
+  printf("memory is equal to %g\n", memory);
   char * string_rem;
-  double temp = 0;
+  double temp = answer;
   double result = 0;
+  printf("temp %g\n", temp);
   result = strtod(string, &string_rem);
 
+  if (string[0]== '+' || string[0] == '-') {
+    result += temp;
+    return result;
+  }
+  if (string[0]== '*'){
+    string++;
+    result = temp * strtod(string, &string_rem);
+    return result;
+  }
+    if (string[0]== '/'){
+      string++;
+      result = temp / strtod(string, &string_rem);
+      return result;
+  }
+
+
+  if (strnstr(string_rem, "memory^", 7)) {
+    printf("memory found\n");
+    printf("memory = %g", memory);
+    result = (memory * memory);
+    string_rem += 7;
+    return result;
+  }
+  if (strnstr(string_rem, "memory#", 7)) {
+    printf("memory found\n");
+    printf("memory = %g", memory);
+    result = sqrt(memory);
+    string_rem += 7;
+    return result;
+  }
+  if (strnstr(string_rem, "memory", 6)) {
+    printf("memory found\n");
+    printf("memory = %g", memory);
+    result = memory;
+    string_rem += 6;
+    //return result;
+  }
 
 
 
@@ -84,14 +121,39 @@ double to_num2(char *string) {
       case '+':
         string_rem++;
         string = string_rem;
+
         temp = strtod(string, &string_rem);
         if (string_rem[0] == '^') {
+
           temp = temp * temp;
           string_rem++;
         }
         if (string_rem[0] == '#') {
-          temp = temp * temp;
+
+
+          temp = sqrt(temp);
           string_rem++;
+        }
+        if (strnstr(string_rem, "memory^", 7)) {
+          printf("memory found\n");
+          printf("memory = %g", memory);
+          result = result + (memory * memory);
+          string_rem += 7;
+          break;
+        }
+        if (strnstr(string_rem, "memory#", 7)) {
+          printf("memory found\n");
+          printf("memory = %g", memory);
+          result = result + sqrt(memory);
+          string_rem += 7;
+          break;
+        }
+        if (strnstr(string_rem, "memory", 6)) {
+          printf("memory found\n");
+          printf("memory = %g", memory);
+          result = result + memory;
+          string_rem += 6;
+          break;
         }
         //result = result + strtod(string, &string_rem);
         result = result + temp;
@@ -102,16 +164,39 @@ double to_num2(char *string) {
       case '-':
         string_rem++;
         string = string_rem;
+
           temp = strtod(string, &string_rem);
         if (string_rem[0] == '^') {
+
           temp = temp * temp;
           string_rem++;
         }
         if (string_rem[0] == '#') {
-          temp = temp * temp;
+
+            temp = sqrt(temp);
           string_rem++;
         }
-
+        if (strnstr(string_rem, "memory^", 7)) {
+          printf("memory found\n");
+          printf("memory = %g", memory);
+          result = result - (memory * memory);
+          string_rem += 7;
+          break;
+        }
+        if (strnstr(string_rem, "memory#", 7)) {
+          printf("memory found\n");
+          printf("memory = %g", memory);
+          result = result - sqrt(memory);
+          string_rem += 7;
+          break;
+        }
+        if (strnstr(string_rem, "memory", 6)) {
+          printf("memory found\n");
+          printf("memory = %g", memory);
+          result = result - memory;
+          string_rem += 6;
+          break;
+        }
         result = result - temp;
 
         printf("MINUS\n");
@@ -123,21 +208,95 @@ double to_num2(char *string) {
         //printf("%gTEMP, %gRESULT\n", temp, result);
         //result = (result * temp);
         string = string_rem;
-        result = result * strtod(string, &string_rem);
+
+
+          temp = strtod(string, &string_rem);
+        if (string_rem[0] == '^') {
+
+          temp = temp * temp;
+          string_rem++;
+        }
+        if (string_rem[0] == '#') {
+
+            temp = sqrt(temp);
+          string_rem++;
+        }
+        if (strnstr(string_rem, "memory^", 7)) {
+          printf("memory found\n");
+          printf("memory = %g", memory);
+          result = result * (memory * memory);
+          string_rem += 7;
+          break;
+        }
+        if (strnstr(string_rem, "memory#", 7)) {
+          printf("memory found\n");
+          printf("memory = %g", memory);
+          result = result * sqrt(memory);
+          string_rem += 7;
+          break;
+        }
+        if (strnstr(string_rem, "memory", 6)) {
+          printf("memory found\n");
+          printf("memory = %g", memory);
+          result = result * memory;
+          string_rem += 6;
+          break;
+        }
+        result = result * temp;
         printf("TIMES\n");
       //  return result;
         break;
         case '/':
         string_rem++;
         string = string_rem;
-        result = result / strtod(string, &string_rem);
+
+
+          temp = strtod(string, &string_rem);
+        if (string_rem[0] == '^') {
+
+          temp = temp * temp;
+          string_rem++;
+        }
+        if (string_rem[0] == '#') {
+
+            temp = sqrt(temp);
+          string_rem++;
+        }
+        if (strnstr(string_rem, "memory^", 7)) {
+          printf("memory found\n");
+          printf("memory = %g", memory);
+          result = result / (memory * memory);
+          string_rem += 7;
+          break;
+        }
+        if (strnstr(string_rem, "memory#", 7)) {
+          printf("memory found\n");
+          printf("memory = %g", memory);
+          result = result / sqrt(memory);
+          string_rem += 7;
+          break;
+        }
+        if (strnstr(string_rem, "memory", 6)) {
+          printf("memory found\n");
+          printf("memory = %g", memory);
+          result = result / memory;
+          string_rem += 6;
+          break;
+        }
+
+        result = result / temp;
         printf("DIVIDE\n");
         //return result;
         break;
+
+
         case '^':
         string_rem++;
         string = string_rem;
-        result = result * result;
+
+          result = result * result;
+
+
         printf("SQUARED\n");
         break;
         case '#':
@@ -146,6 +305,7 @@ double to_num2(char *string) {
         result = sqrt(result);
         printf("ROOTED\n");
         break;
+
       default:
         printf("error\n");
         exit_calc =1;
@@ -203,7 +363,7 @@ int eval_input(char *string){
   comp = strcmp(string, "exit");
   if (comp == 0){
     exit_calc = 1;
-    printf("Thanks for using Calculator.\nGoodbye!");
+    printf("Thankyou for using Calculator.\nGoodbye!\n");
     return 0;
   }
   comp = strcmp(string, "help");
@@ -211,17 +371,37 @@ int eval_input(char *string){
     print_help();
     return 0;
   }
-
-  switch (first_letter){
-    case '+':
-      printf("Starts with plus\n");
-      break;
-      default:
-      break;
+  comp = strcmp(string, "store");
+  if (comp == 0){
+    memory = answer;
+    return 0;
   }
+
+  comp = strcmp(string, "reset");
+  if (comp == 0){
+    reset();
+    return 0;
+  }
+
+  answer = to_num2(calc_string);
+  // switch (first_letter){
+  //   case '+':
+  //     printf("Starts with plus\n");
+  //     break;
+  //     default:
+  //     break;
+  // }
+  print_answer();
   return 0;
 }
-int print_help(void){
+void print_help(void){
   printf("HELP IS HERE\n");
-  return 0;
+
+}
+void print_answer(){
+  if (answer == trunc(answer)){
+    printf("%s%g\n", "Answer:\\> ", answer);
+  } else
+
+  printf("%s%f\n", "Answer:\\> ", answer);
 }
