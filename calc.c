@@ -11,7 +11,8 @@ void removeSpaces(char *str);
 void prompt(void);
 void reset(void);
 int eval_input(char *string);
-int print_help(void);
+void print_help(void);
+void print_answer();
 
 double answer = 0;
 char input[20] = {0};
@@ -33,12 +34,9 @@ int main(void){
     replace_sqr(calc_string);
     printf("%s%s\n", "This is my string without spaces", calc_string) ;
     eval_input(calc_string);
-    answer = to_num2(calc_string);
-    if (answer == trunc(answer)){
-      printf("%s%g\n", "Answer:\\> ", answer);
-    } else
 
-    printf("%s%f\n", "Answer:\\> ", answer);
+
+
 
 } // end while
 }
@@ -68,9 +66,25 @@ char * get_string(char *string) {
 
 double to_num2(char *string) {
   char * string_rem;
-  double temp = 0;
+  double temp = answer;
   double result = 0;
+  printf("temp %g\n", temp);
   result = strtod(string, &string_rem);
+
+  if (string[0]== '+' || string[0] == '-') {
+    result += temp;
+    return result;
+  }
+  if (string[0]== '*'){
+    string++;
+    result = temp * strtod(string, &string_rem);
+    return result;
+  }
+    if (string[0]== '/'){
+      string++;
+      result = temp / strtod(string, &string_rem);
+      return result;
+  }
 
 
 
@@ -203,7 +217,7 @@ int eval_input(char *string){
   comp = strcmp(string, "exit");
   if (comp == 0){
     exit_calc = 1;
-    printf("Thanks for using Calculator.\nGoodbye!");
+    printf("Thanks for using Calculator.\nGoodbye!\n");
     return 0;
   }
   comp = strcmp(string, "help");
@@ -211,17 +225,25 @@ int eval_input(char *string){
     print_help();
     return 0;
   }
-
-  switch (first_letter){
-    case '+':
-      printf("Starts with plus\n");
-      break;
-      default:
-      break;
-  }
+  answer = to_num2(calc_string);
+  // switch (first_letter){
+  //   case '+':
+  //     printf("Starts with plus\n");
+  //     break;
+  //     default:
+  //     break;
+  // }
+  print_answer();
   return 0;
 }
-int print_help(void){
+void print_help(void){
   printf("HELP IS HERE\n");
-  return 0;
+
+}
+void print_answer(){
+  if (answer == trunc(answer)){
+    printf("%s%g\n", "Answer:\\> ", answer);
+  } else
+
+  printf("%s%f\n", "Answer:\\> ", answer);
 }
