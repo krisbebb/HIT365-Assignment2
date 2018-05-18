@@ -5,41 +5,42 @@
 #include <stdlib.h>
 
 char * get_string(char *string);
-double get_digits(char *string);
-double to_num(char *string);
 double to_num2(char *string);
 void replace_sqr(char *string);
-// char * get_digits(char *string, double *operand_a);
 void removeSpaces(char *str);
-double result = 0;
+void prompt(void);
+void reset(void);
+int eval_input(char *string);
+int print_help(void);
+
+double answer = 0;
+char input[20] = {0};
+char * calc_string = NULL;
+int result_trunc = 0;
+int exit_calc = 0;
+double memory = 0;
 
 int main(void){
-    double op_a = 0;
-    char * op_b = NULL;
-    char opr = '\0';
-    char input[20] = {0};
-    char * mystring = NULL;
-    int result_trunc = 0;
 
-    puts("Type \"HELP\" or enter a mathematical expression");
-    mystring = get_string(input);
+  reset();
+  while (!exit_calc){
 
-    printf("%s%s\n", "This is my string ", mystring) ;
-    removeSpaces(mystring);
-    replace_sqr(mystring);
-    printf("%s%s\n", "This is my string without spaces", mystring) ;
+    prompt();
 
-    //result = get_digits(mystring);
-    // op_b = get_digits(mystring, &op_a);
-    // printf("%s%s\n%s%g\n%s%s\n", "mystring ", mystring, "opa ", op_a, "opb ", op_b);
-    op_a = to_num2(mystring);
-    if (op_a == trunc(op_a)){
-      printf("%s%g\n", "Result = ", op_a);
+
+    printf("%s%s\n", "This is my string ", calc_string) ;
+    removeSpaces(calc_string);
+    replace_sqr(calc_string);
+    printf("%s%s\n", "This is my string without spaces", calc_string) ;
+    eval_input(calc_string);
+    answer = to_num2(calc_string);
+    if (answer == trunc(answer)){
+      printf("%s%g\n", "Answer:\\> ", answer);
     } else
 
-    printf("%s%f\n", "Result = ", op_a);
+    printf("%s%f\n", "Answer:\\> ", answer);
 
-
+} // end while
 }
 char * get_string(char *string) {
 
@@ -47,7 +48,7 @@ char * get_string(char *string) {
   // printf("%s\n", string);
   //
   // removeSpaces(string);
-  // string = "";
+
   char c = getchar();
 
   size_t i=0;
@@ -61,14 +62,14 @@ char * get_string(char *string) {
     c=getchar();
 
   }
-  string += '\0';
+  string[i] = '\0';
   return string;
 }
 
 double to_num2(char *string) {
   char * string_rem;
   double temp = 0;
-
+  double result = 0;
   result = strtod(string, &string_rem);
 
 
@@ -76,20 +77,8 @@ double to_num2(char *string) {
 
   printf("%gRESULT FIRST\n", result);
   printf("%sSTRING_REM FIRST\n", string_rem);
-  while ((*string_rem)) {
-    // if (string_rem[0] == '^') {
-    //   printf("SQUARED\n");
-    //   result = result * result;
-    //   string_rem++;
-    // }
-    if  (string_rem[0] == '#') {
-      printf("ROOTED\n");
-      result = sqrt(result);
-      string_rem++;
-    }
+  while ((*string_rem) && !exit_calc) {
 
-    // printf("%sNO_STRING_REM\n", string_rem);
-    // return result;
 
     switch (string_rem[0]) {
       case '+':
@@ -158,48 +147,19 @@ double to_num2(char *string) {
         printf("ROOTED\n");
         break;
       default:
+        printf("error\n");
+        exit_calc =1;
         break;
     }
 
-  }
-  return result;
+
+
     }
 
-
-double get_digits(char *string) {
-  char *partb;
-  char *operand_a;
-  char *digits;
-  double parta;
-
-  parta = strtod(string, &partb);
-
-
-
-
-    if (*partb != '\0') {
-        printf("%s is the string part\n", partb);
-    } else {
-      printf("No string part\n");
-    }
-
-    //*operand_a = parta;
-    result += parta;
-
-    switch (partb[0]){
-      case '+':
-
-      partb++;
-      printf("%g PLUS %s\n", parta, partb);
-      result += get_digits(partb);
-      printf("%g result\n", result);
-        break;
-      default :
-    break;
-    }
-
-  return result;
+    return result;
 }
+
+
 void replace_sqr(char *string) {
   printf("%s%s\n", "String before ", string);
   const char * square = "^";
@@ -223,3 +183,45 @@ void removeSpaces(char *str)
                                    // incremented
     str[count] = '\0';
   }
+void prompt(void) {
+  printf("Calc:\\> ");
+  calc_string = get_string(input);
+
+
+}
+
+void reset(void){
+  answer = 0;
+  memory = 0;
+  puts("Type \"HELP\" or enter a mathematical expression");
+}
+
+int eval_input(char *string){
+  char first_letter = string[0];
+  int comp;
+
+  comp = strcmp(string, "exit");
+  if (comp == 0){
+    exit_calc = 1;
+    printf("Thanks for using Calculator.\nGoodbye!");
+    return 0;
+  }
+  comp = strcmp(string, "help");
+  if (comp == 0){
+    print_help();
+    return 0;
+  }
+
+  switch (first_letter){
+    case '+':
+      printf("Starts with plus\n");
+      break;
+      default:
+      break;
+  }
+  return 0;
+}
+int print_help(void){
+  printf("HELP IS HERE\n");
+  return 0;
+}
