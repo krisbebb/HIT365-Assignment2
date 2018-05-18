@@ -6,6 +6,7 @@
 
 char * get_string(char *string);
 double get_digits(char *string);
+double to_num(char *string);
 // char * get_digits(char *string, double *operand_a);
 void removeSpaces(char *str);
 double result = 0;
@@ -24,10 +25,11 @@ int main(void){
     removeSpaces(mystring);
     printf("%s%s\n", "This is my string without spaces", mystring) ;
 
-    result = get_digits(mystring);
+    //result = get_digits(mystring);
     // op_b = get_digits(mystring, &op_a);
     // printf("%s%s\n%s%g\n%s%s\n", "mystring ", mystring, "opa ", op_a, "opb ", op_b);
-
+    op_a = to_num(mystring);
+    printf("%s%g\n", "Result = ", op_a);
 
 }
 char * get_string(char *string) {
@@ -53,7 +55,57 @@ char * get_string(char *string) {
   string += '\0';
   return string;
 }
+double to_num(char *string) {
+  char * string_rem;
+  double temp = 0;
+  result = strtod(string, &string_rem);
+  printf("%gRESULT FIRST\n", result);
+  printf("%sSTRING_REM FIRST\n", string_rem);
+  if (!(*string_rem)) {
 
+
+    printf("%sNO_STRING_REM\n", string_rem);
+    return result;
+  } else {
+    switch (string_rem[0]) {
+      case '+':
+        string_rem++;
+        result = result + to_num(string_rem);
+
+        printf("PLUS\n");
+          return result;
+        break;
+      case '-':
+        string_rem++;
+        result = result - to_num(string_rem);
+
+        printf("MINUS\n");
+        return result;
+        break;
+      case '*':
+        string_rem++;
+        //temp = to_num(string_rem);
+        //printf("%gTEMP, %gRESULT\n", temp, result);
+        //result = (result * temp);
+        result = result * to_num(string_rem);
+        printf("TIMES\n");
+        return result;
+        break;
+        case '/':
+        string_rem++;
+        result = result / to_num(string_rem);
+        printf("DIVIDE\n");
+        return result;
+        break;
+
+
+      default:
+        break;
+    }
+
+  }
+  return -10;
+}
 
 double get_digits(char *string) {
   char *partb;
