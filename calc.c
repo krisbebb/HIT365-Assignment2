@@ -395,7 +395,23 @@ int eval_input(char *string){
   return 0;
 }
 void print_help(void){
-  printf("HELP IS HERE\n");
+  printf("EXIT\t\tExits this program.\n");
+  printf("HELP\t\tDisplays information about this program.\n");
+  printf("MEMORY\t\tAs part of a mathematical expression the term MEMORY\n");
+  printf("\t\tis substituted by the value stored in memory. Otherwise,\n");
+  printf("\t\tthe value stored in memory is displayed on-screen.\n");
+  printf("RESET\t\tErases stored memory and returns calculator to its\n");
+  printf("\t\tinitial 'start-up' mode.\n");
+  printf("STORE\t\tSaves current answer to memory.\n\n");
+  printf("OPERATOR\t\tDESCRIPTION\t\tSYNTAX\n");
+  printf("+\t\taddition\t\t[a + b:+a]\n");
+  printf("-\t\taddition\t\t[a - b:-a]\n");
+  printf("*\t\taddition\t\t[a * b:*a]\n");
+  printf("\\\t\taddition\t\t[a / b:/a]\n");
+  printf("^\t\taddition\t\ta^\n");
+  printf("#\t\taddition\t\ta#\n\n");
+  printf("Example:\t a^ +b#/ MEMORY (spacing optional)");
+
 
 }
 void print_answer(){
