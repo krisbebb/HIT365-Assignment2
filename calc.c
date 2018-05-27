@@ -63,19 +63,21 @@ double calculate_exp(char *string) {
     result = temp / strtod(string, &string_rem);
     return result;
   }
-  if (strnstr(string_rem, "memory^", 7)) {
-    result = (memory * memory);
-    string_rem += 7;
-    return result;
-  }
-  if (strnstr(string_rem, "memory#", 7)) {
-    result = sqrt(memory);
-    string_rem += 7;
-    return result;
-  }
-    if (strnstr(string_rem, "memory", 6)) {
-    result = memory;
-    string_rem += 6;
+  if (string[0] == 'm' || string[0] == 'M'){
+    if (strstr(string_rem, "memory^") || strstr(string_rem, "MEMORY^")) {
+      result = (memory * memory);
+      string_rem += 7;
+      return result;
+    }
+    if (strstr(string_rem, "memory#") || strstr(string_rem, "MEMORY#")) {
+      result = sqrt(memory);
+      string_rem += 7;
+      return result;
+    }
+      if (strstr(string_rem, "memory") || strstr(string_rem, "MEMORY")) {
+      result = memory;
+      string_rem += 6;
+    }
   }
 
   while ((*string_rem) && !error) {
@@ -93,17 +95,17 @@ double calculate_exp(char *string) {
           temp = sqrt(temp);
           string_rem++;
         }
-        if (strnstr(string_rem, "memory^", 7)) {
+        if (strstr(string_rem, "memory^")|| strstr(string_rem, "MEMORY^")) {
           result = result + (memory * memory);
           string_rem += 7;
           break;
         }
-        if (strnstr(string_rem, "memory#", 7)) {
+        if (strstr(string_rem, "memory#")|| strstr(string_rem, "MEMORY#")) {
           result = result + sqrt(memory);
           string_rem += 7;
           break;
         }
-        if (strnstr(string_rem, "memory", 6)) {
+        if (strstr(string_rem, "memory") || strstr(string_rem, "MEMORY")) {
           result = result + memory;
           string_rem += 6;
           break;
@@ -123,17 +125,17 @@ double calculate_exp(char *string) {
           temp = sqrt(temp);
           string_rem++;
         }
-        if (strnstr(string_rem, "memory^", 7)) {
+        if (strstr(string_rem, "memory^")|| strstr(string_rem, "MEMORY^")) {
           result = result - (memory * memory);
           string_rem += 7;
           break;
         }
-        if (strnstr(string_rem, "memory#", 7)) {
+        if (strstr(string_rem, "memory#")|| strstr(string_rem, "MEMORY#")) {
           result = result - sqrt(memory);
           string_rem += 7;
           break;
         }
-        if (strnstr(string_rem, "memory", 6)) {
+        if (strstr(string_rem, "memory") || strstr(string_rem, "MEMORY")) {
           result = result - memory;
           string_rem += 6;
           break;
@@ -153,17 +155,18 @@ double calculate_exp(char *string) {
           temp = sqrt(temp);
           string_rem++;
         }
-        if (strnstr(string_rem, "memory^", 7) || strnstr(string_rem, "MEMORY^", 7)) {
+        if (strstr(string_rem, "memory^") || strstr(string_rem, "MEMORY^")) {
           result = result * (memory * memory);
           string_rem += 7;
           break;
         }
-        if (strnstr(string_rem, "memory#", 7) || strnstr(string_rem, "MEMORY#", 7)) {
+        if (strstr(string_rem, "memory#") || strstr(string_rem, "MEMORY#")) {
           result = result * sqrt(memory);
           string_rem += 7;
           break;
         }
-        if (strnstr(string_rem, "memory", 6) || strnstr(string_rem, "MEMORY", 6)) {
+        if (strstr(string_rem, "memory")){  //|| strstr(string_rem, "MEMORY")) {
+
           result = result * memory;
           string_rem += 6;
           break;
@@ -172,7 +175,9 @@ double calculate_exp(char *string) {
         break;
 
       case '/':
+
         string_rem++;
+
         string = string_rem;
         temp = strtod(string, &string_rem);
         if (string_rem[0] == '^') {
@@ -183,17 +188,17 @@ double calculate_exp(char *string) {
           temp = sqrt(temp);
           string_rem++;
         }
-        if (strnstr(string_rem, "memory^", 7) || strnstr(string_rem, "MEMORY^", 7)) {
+        if (strstr(string_rem, "memory^") || strstr(string_rem, "MEMORY^")) {
           result = result / (memory * memory);
           string_rem += 7;
           break;
           }
-        if (strnstr(string_rem, "memory#", 7) || strnstr(string_rem, "MEMORY#", 7)) {
+        if (strstr(string_rem, "memory#") || strstr(string_rem, "MEMORY#")) {
           result = result / sqrt(memory);
           string_rem += 7;
           break;
         }
-        if (strnstr(string_rem, "memory", 6) || strnstr(string_rem, "MEMORY", 6)) {
+        if (strstr(string_rem, "memory") || strstr(string_rem, "MEMORY")) {
           result = result / memory;
           string_rem += 6;
           break;
