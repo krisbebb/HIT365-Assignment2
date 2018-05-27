@@ -221,21 +221,21 @@ double to_num2(char *string) {
             temp = sqrt(temp);
           string_rem++;
         }
-        if (strnstr(string_rem, "memory^", 7)) {
+        if (strnstr(string_rem, "memory^", 7) || strnstr(string_rem, "MEMORY^", 7)) {
           printf("memory found\n");
           printf("memory = %g", memory);
           result = result * (memory * memory);
           string_rem += 7;
           break;
         }
-        if (strnstr(string_rem, "memory#", 7)) {
+        if (strnstr(string_rem, "memory#", 7) || strnstr(string_rem, "MEMORY#", 7)) {
           printf("memory found\n");
           printf("memory = %g", memory);
           result = result * sqrt(memory);
           string_rem += 7;
           break;
         }
-        if (strnstr(string_rem, "memory", 6)) {
+        if (strnstr(string_rem, "memory", 6) || strnstr(string_rem, "MEMORY", 6)) {
           printf("memory found\n");
           printf("memory = %g", memory);
           result = result * memory;
@@ -262,21 +262,21 @@ double to_num2(char *string) {
             temp = sqrt(temp);
           string_rem++;
         }
-        if (strnstr(string_rem, "memory^", 7)) {
+        if (strnstr(string_rem, "memory^", 7) || strnstr(string_rem, "MEMORY^", 7)) {
           printf("memory found\n");
           printf("memory = %g", memory);
           result = result / (memory * memory);
           string_rem += 7;
           break;
         }
-        if (strnstr(string_rem, "memory#", 7)) {
+        if (strnstr(string_rem, "memory#", 7) || strnstr(string_rem, "MEMORY#", 7)) {
           printf("memory found\n");
           printf("memory = %g", memory);
           result = result / sqrt(memory);
           string_rem += 7;
           break;
         }
-        if (strnstr(string_rem, "memory", 6)) {
+        if (strnstr(string_rem, "memory", 6) || strnstr(string_rem, "MEMORY", 6)) {
           printf("memory found\n");
           printf("memory = %g", memory);
           result = result / memory;
@@ -360,24 +360,24 @@ int eval_input(char *string){
   char first_letter = string[0];
   int comp;
 
-  comp = strcmp(string, "exit");
+  comp = strcasecmp(string, "exit");
   if (comp == 0){
     exit_calc = 1;
     printf("Thankyou for using Calculator.\nGoodbye!\n");
     return 0;
   }
-  comp = strcmp(string, "help");
+  comp = strcasecmp(string, "help");
   if (comp == 0){
     print_help();
     return 0;
   }
-  comp = strcmp(string, "store");
+  comp = strcasecmp(string, "store");
   if (comp == 0){
     memory = answer;
     return 0;
   }
 
-  comp = strcmp(string, "reset");
+  comp = strcasecmp(string, "reset");
   if (comp == 0){
     reset();
     return 0;
@@ -395,7 +395,7 @@ int eval_input(char *string){
   return 0;
 }
 void print_help(void){
-  printf("EXIT\t\tExits this program.\n");
+  printf("\nEXIT\t\tExits this program.\n");
   printf("HELP\t\tDisplays information about this program.\n");
   printf("MEMORY\t\tAs part of a mathematical expression the term MEMORY\n");
   printf("\t\tis substituted by the value stored in memory. Otherwise,\n");
@@ -403,14 +403,14 @@ void print_help(void){
   printf("RESET\t\tErases stored memory and returns calculator to its\n");
   printf("\t\tinitial 'start-up' mode.\n");
   printf("STORE\t\tSaves current answer to memory.\n\n");
-  printf("OPERATOR\t\tDESCRIPTION\t\tSYNTAX\n");
-  printf("+\t\taddition\t\t[a + b:+a]\n");
-  printf("-\t\taddition\t\t[a - b:-a]\n");
-  printf("*\t\taddition\t\t[a * b:*a]\n");
-  printf("\\\t\taddition\t\t[a / b:/a]\n");
-  printf("^\t\taddition\t\ta^\n");
-  printf("#\t\taddition\t\ta#\n\n");
-  printf("Example:\t a^ +b#/ MEMORY (spacing optional)");
+  printf("OPERATOR\tDESCRIPTION\tSYNTAX\n");
+  printf("+\t\taddition\t[a + b:+a]\n");
+  printf("-\t\tsubtraction\t[a - b:-a]\n");
+  printf("*\t\tmultiplication\t[a * b:*a]\n");
+  printf("/\t\tdivision\t[a / b:/a]\n");
+  printf("^\t\tsqr(x)\t\ta^\n");
+  printf("#\t\tsqrt(x)\t\ta#\n\n");
+  printf("Example:\ta^ +b#/ MEMORY (spacing optional)");
 
 
 }
